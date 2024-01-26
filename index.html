@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <title>排氣量計算機</title>
+    <link rel="icon" href="assets/images/favicon.ico">
+    <script src="calculateDisplacement.js"></script>
+</head>
+
+<body>
+    <h1>排氣量計算器</h1>
+    <h4>Developed by <a href="https://github.com/timliucode">timliucode</a></h4>
+    <label for="cylinders">缸數：</label>
+    <input type="number" id="cylinders" min="1" oninput="calculate()"><br>
+
+    <label for="diameter">缸徑：</label>
+    <input type="number" id="diameter" min="1" step="0.1" oninput="calculate()"><span>mm</span><br>
+
+    <label for="stroke">行程：</label>
+    <input type="number" id="stroke" min="1" step="0.1" oninput="calculate()"><span>mm</span><br>
+
+
+    <h2>改裝目標</h2>
+
+    <select id="selectNewBore" oninput="newBoreUnit()">
+        <option value="0" selected>缸徑</option>
+        <option value="1">搪缸</option>
+    </select>
+
+    <input type="number" id="NewDiameter" min="1" step="0.1" oninput="calculate()">
+
+    <label id="newBoreUnit">mm</label>
+    <br>
+
+    <select id="selectNewStroke" oninput="newStrokeUnit()">
+        <option value="0" selected>拉條</option>
+        <option value="1">行程</option>
+    </select>
+
+    <input type="number" id="NewStroke" min="1" step="0.1" oninput="calculate()">
+
+    <label id="newStrokeUnit">條</label>
+    <br><br>
+
+    <label for="result">排氣量：　　</label><span id="result"></span><br>
+    <label for="newboremm">改後缸徑：　</label><span id="newboremm"></span><br>
+    <label for="newstrokemm">改後行程：　</label><span id="newstrokemm"></span><br>
+    <label for="newResult">改後排量：　</label>
+    <input type="number" id="newResult" min="1" step="0.1">cc<br>
+
+    <label for="difference">相差倍率：　</label>
+    <span id="difference"></span><br>
+    <label for="differencePercent">相差百分比：</label>
+    <span id="differencePercent"></span><br>
+    <label for="differenceResult">相差排氣量：</label>
+    <span id="differenceResult"></span><br><br>
+
+    <button onclick="clearInputs()">清除</button>
+    <button onclick="calculate(0)">計算排氣量</button>
+    <button onclick="calculate(1)">計算缸徑</button>
+    <button onclick="calculate(2)">計算行程</button><br><br>
+
+
+    <h2>快速選擇車款</h2>
+
+    <h3>YAMAHA</h3>
+    <button onclick="setCarSpecs(1, 52.4, 57.9)">5ML車系(勁戰1~5、GTR、RAY、BWSx、r)</button><br><br>
+    <button onclick="setCarSpecs(1, 52, 58.7)">B8R125車系(六代戰、BWS2.0)</button><br><br>
+    <button onclick="setCarSpecs(1, 58, 58.7)">Smax/Force/Force2.0/AUGUR/NAMX/R15v3、V4</button>
+
+    <h3>SYM</h3>
+    <button onclick="setCarSpecs(1, 54, 54.4)">JETS/SR</button><br><br>
+    <button onclick="setCarSpecs(1, 53, 56.5)">JETSL</button><br><br>
+    <button onclick="setCarSpecs(1, 59, 57.8)">DRG/MMBCU/JETSL+</button>
+
+    <h3>KYMCO</h3>
+    <button onclick="setCarSpecs(1, 54, 54.5)">RacingS 125</button><br><br>
+    <button onclick="setCarSpecs(1, 59, 54.5)">RacingS 150/RCSmoto</button><br><br>
+    <button onclick="setCarSpecs(1, 62, 58)">KRV車系</button>
+
+    <h3>PGO</h3>
+    <button onclick="setCarSpecs(1, 52.4, 57.8)">TIGRA125</button><br><br>
+    <button onclick="setCarSpecs(1, 57.4, 58)">TIGRA150</button><br><br>
+    <button onclick="setCarSpecs(1, 61, 58)">TIG170</button><br><br>
+</body>
+
+</html>
