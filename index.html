@@ -64,6 +64,13 @@
     <button onclick="calculate(1)">計算缸徑</button>
     <button onclick="calculate(2)">計算行程</button><br><br>
 
+    <label for="rpm">引擎轉速：</label>
+    <input type="number" id="rpm" min="1" step="100" oninput="calculate()" value="10000"><span>rpm</span><br>
+    <label for="mps">改前活塞速度：</label>
+    <span id="mps"></span><br>
+    <label for="newmps">改後活塞速度：</label>
+    <span id="newmps"></span><br>
+
 
     <h2>快速選擇車款</h2>
 

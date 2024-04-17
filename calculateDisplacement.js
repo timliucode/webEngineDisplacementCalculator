@@ -13,8 +13,13 @@ function calculate(mode = 0) {
 
     var math = 0.0007854; // 用於體積計算的數學常數
 
+    var rpm = parseFloat(document.getElementById('rpm').value) || 10000; // 轉速
+
     var boreSquare = diameter * diameter;
     var cap = boreSquare * stroke * math * cylinders;
+
+    var mps = (2 * stroke * rpm) / 60 / 1000;
+
 
     // 處理新的缸徑和行程
     if (newBoreUnit == 0) {
@@ -43,6 +48,7 @@ function calculate(mode = 0) {
     var difference = (newCap / cap) || 0;
     var differencePercent = ((newCap - cap) / cap * 100) || 0;
 
+    var newmps = (2 * stroke * rpm) / 60 / 1000;
 
     // 顯示結果
     document.getElementById('result').innerText = cap.toFixed(2) + ' cc';
@@ -52,6 +58,8 @@ function calculate(mode = 0) {
     document.getElementById('differenceResult').innerText = (newCap - cap).toFixed(2) + ' cc';
     document.getElementById('newboremm').innerText = diameter.toFixed(2) + ' mm';
     document.getElementById('newstrokemm').innerText = stroke.toFixed(2) + ' mm';
+    document.getElementById('mps').innerText = mps.toFixed(2) + ' m/s';
+    document.getElementById('newmps').innerText = newmps.toFixed(2) + ' m/s';
 
     if (mode == 1) {
         if (newStrokeUnit == 0) { // 新的行程單位為條
@@ -109,5 +117,6 @@ function clearInputs() {
     document.getElementById('stroke').value = '';
     document.getElementById('NewDiameter').value = '';
     document.getElementById('NewStroke').value = '';
+    document.getElementById('rpm').value = '10000';
     calculate();
 }
