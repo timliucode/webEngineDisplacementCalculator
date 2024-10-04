@@ -18,10 +18,10 @@
     <input type="number" id="cylinders" min="1" oninput="calculate()"><br>
 
     <label for="diameter">缸徑：</label>
-    <input type="number" id="diameter" min="1" step="0.1" oninput="calculate()"><span>mm</span><br>
+    <input type="number" id="diameter" min="1" step="0.1" oninput="calculate()"><span> mm</span><br>
 
     <label for="stroke">行程：</label>
-    <input type="number" id="stroke" min="1" step="0.1" oninput="calculate()"><span>mm</span><br>
+    <input type="number" id="stroke" min="1" step="0.1" oninput="calculate()"><span> mm</span><br>
 
 
     <h2>改裝目標</h2>
@@ -43,14 +43,16 @@
 
     <input type="number" id="NewStroke" min="1" step="0.1" oninput="calculate()">
 
-    <label id="newStrokeUnit">條</label>
+    <label id="newStrokeUnit">條</label><br>
+    <label>燃燒容積</label><input type="number" id="combustionChamber" min="1" step="0.1" oninput="calculate()"><span> cc</span>
     <br><br>
-
+    
+    <label for="Compression_ratio">壓縮比：　　</label><span id="compressionRatio"></span><br>
     <label for="result">排氣量：　　</label><span id="result"></span><br>
     <label for="newboremm">改後缸徑：　</label><span id="newboremm"></span><br>
     <label for="newstrokemm">改後行程：　</label><span id="newstrokemm"></span><br>
     <label for="newResult">改後排量：　</label>
-    <input type="number" id="newResult" min="1" step="0.1">cc<br>
+    <input type="number" id="newResult" min="1" step="0.1"> cc<br>
 
     <label for="difference">相差倍率：　</label>
     <span id="difference"></span><br>
@@ -65,7 +67,7 @@
     <button onclick="calculate(2)">計算行程</button><br><br>
 
     <label for="rpm">引擎轉速：</label>
-    <input type="number" id="rpm" min="1" step="100" oninput="calculate()" value="10000"><span>rpm</span><br>
+    <input type="number" id="rpm" min="1" step="100" oninput="calculate()" value="10000"><span> rpm</span><br>
     <label for="mps">改前活塞速度：</label>
     <span id="mps"></span><br>
     <label for="newmps">改後活塞速度：</label>

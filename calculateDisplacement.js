@@ -2,6 +2,7 @@ function calculate(mode = 0) {
     var cylinders = parseFloat(document.getElementById('cylinders').value) || 0;
     var diameter = parseFloat(document.getElementById('diameter').value) || 0;
     var stroke = parseFloat(document.getElementById('stroke').value) || 0;
+    var combustionChamber = parseFloat(document.getElementById('combustionChamber').value) || 0;
 
     var newBoreUnit = document.getElementById('selectNewBore').value;
     var newDiameter = parseFloat(document.getElementById('NewDiameter').value) || 0;
@@ -19,7 +20,6 @@ function calculate(mode = 0) {
     var cap = boreSquare * stroke * math * cylinders;
 
     var mps = (2 * stroke * rpm) / 60 / 1000;
-
 
     // 處理新的缸徑和行程
     if (newBoreUnit == 0) {
@@ -61,6 +61,14 @@ function calculate(mode = 0) {
     document.getElementById('mps').innerText = mps.toFixed(2) + ' m/s';
     document.getElementById('newmps').innerText = newmps.toFixed(2) + ' m/s';
 
+    // 計算壓縮比
+    if (combustionChamber > 0) {
+        var compressionRatio = (newCap + combustionChamber) / combustionChamber;
+        document.getElementById('compressionRatio').innerText = compressionRatio.toFixed(2) + ' : 1';
+    } else {
+        document.getElementById('compressionRatio').innerText = 'N/A';
+    }
+
     if (mode == 1) {
         if (newStrokeUnit == 0) { // 新的行程單位為條
             stroke += newStroke * 0.01;
@@ -92,6 +100,7 @@ function calculate(mode = 0) {
     }
 }
 
+
 function newBoreUnit() {
     var unit = document.getElementById('selectNewBore').value;
     document.getElementById('newBoreUnit').innerText = unit == 0 ? 'mm' : '條';
@@ -118,5 +127,6 @@ function clearInputs() {
     document.getElementById('NewDiameter').value = '';
     document.getElementById('NewStroke').value = '';
     document.getElementById('rpm').value = '10000';
+    document.getElementById('combustionChamber').value = '';
     calculate();
 }
