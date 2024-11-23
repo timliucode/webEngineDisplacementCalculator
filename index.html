@@ -3,10 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="排氣量計算機，提供快捷選項選取台灣時下熱門白牌機車改裝選項">
     <title>排氣量計算機</title>
     <link rel="icon" href="assets/images/favicon.ico">
-    <!-- 引入 Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -28,310 +26,437 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             line-height: 1.5;
-            padding: 20px;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 2000px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 8px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 10px;
         }
 
         .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 4px;
         }
 
         .github-link {
             color: var(--text-color);
             text-decoration: none;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin: 2px 0;
         }
 
         .github-link:hover {
             color: var(--primary-color);
         }
 
-        .calculator-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
         @media (min-width: 768px) {
-            .calculator-grid {
-                grid-template-columns: 1fr 1fr;
+            .main-content {
+                flex-direction: row;
             }
         }
 
-        .card {
+        .calculator-main {
             background: white;
-            border-radius: 8px;
-            padding: 20px;
+            border-radius: 12px;
+            padding: 8px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            flex: 2;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .presets {
+            flex: 1;
+            overflow-y: auto;
+            max-height: calc(100vh - 100px);
+        }
+
+        .section-title {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--border-color);
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 8px;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
+            font-size: 0.75rem;
             font-weight: 500;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 4px;
+            align-items: center;
         }
 
         input[type="number"],
         select {
-            width: 100%;
-            padding: 8px 12px;
+            flex: 1;
+            padding: 6px;
             border: 1px solid var(--border-color);
-            border-radius: 4px;
-            font-size: 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            width: 100%;
         }
 
-        input[type="number"]:focus,
-        select:focus {
-            outline: none;
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(37,99,235,0.1);
+        .unit {
+            font-size: 0.75rem;
+            color: #666;
+            min-width: 30px;
         }
 
-        .result-group {
+        .results-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-bottom: 15px;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 8px 0;
+        }
+
+        .result-item {
+            background: var(--bg-color);
+            padding: 6px;
+            border-radius: 6px;
         }
 
         .result-item label {
             display: block;
-            color: #6b7280;
-            font-size: 0.875rem;
+            font-size: 0.625rem;
+            color: #666;
+            margin-bottom: 2px;
         }
 
-        .result-item span {
-            font-size: 1.125rem;
+        .result-item span,
+        .result-item input {
+            font-size: 0.875rem;
             font-weight: 500;
+            width: 100%;
         }
 
         .button-group {
             display: flex;
-            gap: 10px;
             flex-wrap: wrap;
-            margin-top: 20px;
+            gap: 4px;
+            margin-top: 8px;
         }
 
         button {
             background-color: var(--primary-color);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 6px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             transition: background-color 0.2s;
+            flex: 1;
+            min-width: 70px;
         }
 
         button:hover {
             background-color: var(--hover-color);
         }
 
+        .preset-section {
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
         .preset-buttons {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 10px;
-            margin-top: 20px;
+            grid-template-columns: 1fr;
+            gap: 4px;
         }
 
-        .brand-section {
-            margin-top: 40px;
+        .preset-button {
+            background-color: white;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+            text-align: left;
+            padding: 6px 8px;
+            font-size: 0.75rem;
         }
 
-        .brand-section h3 {
-            margin-bottom: 15px;
-            padding-bottom: 5px;
-            border-bottom: 2px solid var(--primary-color);
+        .preset-button:hover {
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+        }
+
+        .note {
+            font-size: 0.625rem;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                padding: 16px;
+            }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .results-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .button-group {
+                flex-wrap: nowrap;
+                gap: 8px;
+            }
+
+            .button-group button {
+                min-width: 100px;
+            }
+
+            .preset-buttons {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .input-row {
+                gap: 8px;
+            }
+
+            .input-group label {
+                font-size: 0.875rem;
+            }
+
+            .unit {
+                font-size: 0.875rem;
+            }
+
+            .result-item label {
+                font-size: 0.75rem;
+            }
+
+            .result-item span,
+            .result-item input {
+                font-size: 1rem;
+            }
+
+            .preset-button {
+                font-size: 0.875rem;
+            }
+
+            .note {
+                font-size: 0.75rem;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header class="header">
-            <h1>排氣量計算器</h1>
+            <h1>排氣量計算機</h1>
             <a href="https://github.com/timliucode" class="github-link">Developed by timliucode</a>
-            <p>
-                <a href="https://github.com/timliucode/webEngineDisplacementCalculator" class="github-link">
-                    有問題或想增加快選車款請至本庫開issues
-                </a>
-            </p>
+            <br>
+            <a href="https://github.com/timliucode/webEngineDisplacementCalculator" class="github-link">
+                有問題或想增加快選車款請至本庫開issues
+            </a>
         </header>
 
-        <div class="calculator-grid">
-            <div class="card">
-                <h2>基本參數</h2>
-                <div class="input-group">
-                    <label for="cylinders">缸數：</label>
-                    <input type="number" id="cylinders" min="1" oninput="calculate()">
+        <div class="main-content">
+            <div class="calculator-main">
+                <!-- 基本參數 -->
+                <div class="input-section">
+                    <h2 class="section-title">基本參數</h2>
+                    <div class="input-group">
+                        <label for="cylinders">缸數</label>
+                        <div class="input-row">
+                            <input type="number" id="cylinders" min="1" oninput="calculate()">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="diameter">缸徑</label>
+                        <div class="input-row">
+                            <input type="number" id="diameter" min="1" step="0.1" oninput="calculate()">
+                            <span class="unit">mm</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="stroke">行程</label>
+                        <div class="input-row">
+                            <input type="number" id="stroke" min="1" step="0.1" oninput="calculate()">
+                            <span class="unit">mm</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label for="diameter">缸徑 (mm)：</label>
-                    <input type="number" id="diameter" min="1" step="0.1" oninput="calculate()">
+                <!-- 改裝目標 -->
+                <div class="input-section">
+                    <h2 class="section-title">改裝目標</h2>
+                    <div class="input-group">
+                        <div class="input-row">
+                            <select id="selectNewBore" oninput="newBoreUnit()">
+                                <option value="0" selected>缸徑</option>
+                                <option value="1">搪缸</option>
+                            </select>
+                            <input type="number" id="NewDiameter" min="1" step="0.1" oninput="calculate()">
+                            <span class="unit" id="newBoreUnit">mm</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-row">
+                            <select id="selectNewStroke" oninput="newStrokeUnit()">
+                                <option value="0" selected>拉條</option>
+                                <option value="1">行程</option>
+                            </select>
+                            <input type="number" id="NewStroke" min="1" step="0.1" oninput="calculate()">
+                            <span class="unit" id="newStrokeUnit">條</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="combustionChamber">燃燒容積</label>
+                        <div class="input-row">
+                            <input type="number" id="combustionChamber" min="1" step="0.1" oninput="calculate()">
+                            <span class="unit">cc</span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="rpm">引擎轉速</label>
+                        <div class="input-row">
+                            <input type="number" id="rpm" min="1" step="100" value="10000" oninput="calculate()">
+                            <span class="unit">rpm</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label for="stroke">行程 (mm)：</label>
-                    <input type="number" id="stroke" min="1" step="0.1" oninput="calculate()">
-                </div>
+                <!-- 計算結果 -->
+                <div class="results-section">
+                    <h2 class="section-title">計算結果</h2>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <label>壓縮比</label>
+                            <span id="compressionRatio">N/A</span>
+                        </div>
+                        <div class="result-item">
+                            <label>排氣量</label>
+                            <span id="result">0.00 cc</span>
+                        </div>
+                        <div class="result-item">
+                            <label>改後缸徑</label>
+                            <span id="newboremm">0.00 mm</span>
+                        </div>
+                        <div class="result-item">
+                            <label>改後行程</label>
+                            <span id="newstrokemm">0.00 mm</span>
+                        </div>
+                        <div class="result-item">
+                            <label>改後排量</label>
+                            <input type="number" id="newResult" min="1" step="0.1"> cc
+                        </div>
+                        <div class="result-item">
+                            <label>相差倍率</label>
+                            <span id="difference">0.00</span>
+                        </div>
+                        <div class="result-item">
+                            <label>相差百分比</label>
+                            <span id="differencePercent">0.00 %</span>
+                        </div>
+                        <div class="result-item">
+                            <label>相差排氣量</label>
+                            <span id="differenceResult">0.00 cc</span>
+                        </div>
+                        <div class="result-item">
+                            <label>改前活塞速度</label>
+                            <span id="mps">0.00 m/s</span>
+                        </div>
+                        <div class="result-item">
+                            <label>改後活塞速度</label>
+                            <span id="newmps">0.00 m/s</span>
+                        </div>
+                    </div>
 
-                <h3>改裝目標</h3>
-                <div class="input-group">
-                    <select id="selectNewBore" oninput="newBoreUnit()">
-                        <option value="0" selected>缸徑</option>
-                        <option value="1">搪缸</option>
-                    </select>
-                    <input type="number" id="NewDiameter" min="1" step="0.1" oninput="calculate()">
-                    <span id="newBoreUnit">mm</span>
-                </div>
-
-                <div class="input-group">
-                    <select id="selectNewStroke" oninput="newStrokeUnit()">
-                        <option value="0" selected>拉條</option>
-                        <option value="1">行程</option>
-                    </select>
-                    <input type="number" id="NewStroke" min="1" step="0.1" oninput="calculate()">
-                    <span id="newStrokeUnit">條</span>
-                </div>
-
-                <div class="input-group">
-                    <label for="combustionChamber">燃燒容積 (cc)：</label>
-                    <input type="number" id="combustionChamber" min="1" step="0.1" oninput="calculate()">
-                </div>
-
-                <div class="input-group">
-                    <label for="rpm">引擎轉速 (rpm)：</label>
-                    <input type="number" id="rpm" min="1" step="100" value="10000" oninput="calculate()">
+                    <div class="button-group">
+                        <button onclick="clearInputs()">清除</button>
+                        <button onclick="calculate(0)">計算排氣量</button>
+                        <button onclick="calculate(1)">計算缸徑</button>
+                        <button onclick="calculate(2)">計算行程</button>
+                    </div>
                 </div>
             </div>
 
-            <div class="card">
-                <h2>計算結果</h2>
-                <div class="result-group">
-                    <div class="result-item">
-                        <label>壓縮比：</label>
-                        <span id="compressionRatio">N/A</span>
-                    </div>
-                    <div class="result-item">
-                        <label>排氣量：</label>
-                        <span id="result">0.00 cc</span>
-                    </div>
-                    <div class="result-item">
-                        <label>改後缸徑：</label>
-                        <span id="newboremm">0.00 mm</span>
-                    </div>
-                    <div class="result-item">
-                        <label>改後行程：</label>
-                        <span id="newstrokemm">0.00 mm</span>
+            <!-- 快速選擇車款 -->
+            <div class="presets">
+                <h2 class="section-title">快速選擇車款</h2>
+
+                <div class="preset-section">
+                    <h3>YAMAHA</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-button" onclick="setCarSpecs(1, 52.4, 57.9)">5ML車系(勁戰1~5、GTR、RAY、BWSx、r)</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 52, 58.7)">B8R125車系(六代戰、BWS2.0)</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 58, 58.7)">Smax/Force/Force2.0/AUGUR/NAMX/R15v3、V4</button>
                     </div>
                 </div>
 
-                <div class="input-group">
-                    <label for="newResult">改後排量 (cc)：</label>
-                    <input type="number" id="newResult" min="1" step="0.1">
-                </div>
-
-                <div class="result-group">
-                    <div class="result-item">
-                        <label>相差倍率：</label>
-                        <span id="difference">0.00</span>
-                    </div>
-                    <div class="result-item">
-                        <label>相差百分比：</label>
-                        <span id="differencePercent">0.00 %</span>
-                    </div>
-                    <div class="result-item">
-                        <label>相差排氣量：</label>
-                        <span id="differenceResult">0.00 cc</span>
+                <div class="preset-section">
+                    <h3>SYM</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-button" onclick="setCarSpecs(1, 54, 54.4)">JETS/SR</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 53, 56.5)">JETSL</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 59, 57.8)">DRG/MMBCU/JETSL+</button>
                     </div>
                 </div>
 
-                <div class="result-group">
-                    <div class="result-item">
-                        <label>改前活塞速度：</label>
-                        <span id="mps">0.00 m/s</span>
+                <div class="preset-section">
+                    <h3>KYMCO</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-button" onclick="setCarSpecs(1, 54, 54.5)">RacingS 125</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 59, 54.5)">RacingS 150/RCSmoto</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 62, 58)">KRV車系</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 54, 54.5)">RTS125</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 56, 54.5)">RTS135</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 62, 54.5)">RTS165</button>
                     </div>
-                    <div class="result-item">
-                        <label>改後活塞速度：</label>
-                        <span id="newmps">0.00 m/s</span>
+                    <p class="note">RTS車系僅知缸徑，曲軸長度是倒算出來的，僅供參考</p>
+                </div>
+
+                <div class="preset-section">
+                    <h3>PGO</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-button" onclick="setCarSpecs(1, 52.4, 57.8)">TIGRA125</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 57.4, 58)">TIGRA150</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 61, 58)">TIG170</button>
                     </div>
                 </div>
 
-                <div class="button-group">
-                    <button onclick="clearInputs()">清除</button>
-                    <button onclick="calculate(0)">計算排氣量</button>
-                    <button onclick="calculate(1)">計算缸徑</button>
-                    <button onclick="calculate(2)">計算行程</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="brand-section">
-            <h2>快速選擇車款</h2>
-            
-            <div class="brand-section">
-                <h3>YAMAHA</h3>
-                <div class="preset-buttons">
-                    <button onclick="setCarSpecs(1, 52.4, 57.9)">5ML車系(勁戰1~5、GTR、RAY、BWSx、r)</button>
-                    <button onclick="setCarSpecs(1, 52, 58.7)">B8R125車系(六代戰、BWS2.0)</button>
-                    <button onclick="setCarSpecs(1, 58, 58.7)">Smax/Force/Force2.0/AUGUR/NAMX/R15v3、V4</button>
-                </div>
-            </div>
-
-            <div class="brand-section">
-                <h3>SYM</h3>
-                <div class="preset-buttons">
-                    <button onclick="setCarSpecs(1, 54, 54.4)">JETS/SR</button>
-                    <button onclick="setCarSpecs(1, 53, 56.5)">JETSL</button>
-                    <button onclick="setCarSpecs(1, 59, 57.8)">DRG/MMBCU/JETSL+</button>
-                </div>
-            </div>
-
-            <div class="brand-section">
-                <h3>KYMCO</h3>
-                <div class="preset-buttons">
-                    <button onclick="setCarSpecs(1, 54, 54.5)">RacingS 125</button>
-                    <button onclick="setCarSpecs(1, 59, 54.5)">RacingS 150/RCSmoto</button>
-                    <button onclick="setCarSpecs(1, 62, 58)">KRV車系</button>
-                    <button onclick="setCarSpecs(1, 54, 54.5)">RTS125</button>
-                    <button onclick="setCarSpecs(1, 56, 54.5)">RTS135</button>
-                    <button onclick="setCarSpecs(1, 62, 54.5)">RTS165</button>
-                </div>
-                <p class="note">RTS車系僅知缸徑，曲軸長度是倒算出來的，僅供參考</p>
-            </div>
-
-            <div class="brand-section">
-                <h3>PGO</h3>
-                <div class="preset-buttons">
-                    <button onclick="setCarSpecs(1, 52.4, 57.8)">TIGRA125</button>
-                    <button onclick="setCarSpecs(1, 57.4, 58)">TIGRA150</button>
-                    <button onclick="setCarSpecs(1, 61, 58)">TIG170</button>
-                </div>
-            </div>
-
-            <div class="brand-section">
-                <h3>Suzuki</h3>
-                <div class="preset-buttons">
-                    <button onclick="setCarSpecs(1, 62, 48.8)">GSX-R150</button>
+                <div class="preset-section">
+                    <h3>Suzuki</h3>
+                    <div class="preset-buttons">
+                        <button class="preset-button" onclick="setCarSpecs(1, 62, 48.8)">GSX-R150</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="calculateDisplacement.js"></script>
 </body>
 </html>
