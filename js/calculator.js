@@ -113,17 +113,21 @@ function applyBoreModification(originalBore, modification, unitType) {
 
 /**
  * Apply stroke modification based on unit type
+ * Note: Stroke dropdown uses inverted values (0=relative, 1=absolute) compared to bore
  * @param {number} originalStroke - Original stroke in mm
  * @param {number} modification - Modification value
- * @param {number} unitType - UNIT_TYPE.ABSOLUTE or UNIT_TYPE.RELATIVE
+ * @param {number} unitType - 0 for relative (拉條), 1 for absolute (行程)
  * @returns {number} Modified stroke in mm
  */
 function applyStrokeModification(originalStroke, modification, unitType) {
     if (modification === 0) return originalStroke;
     
-    if (unitType === UNIT_TYPE.RELATIVE) {
+    // Stroke dropdown: 0 = relative (拉條), 1 = absolute (行程)
+    if (unitType === 0) {
+        // Relative: add increments (條)
         return originalStroke + (modification * 0.01);
-    } else if (unitType === UNIT_TYPE.ABSOLUTE) {
+    } else if (unitType === 1) {
+        // Absolute: use exact value
         return modification;
     }
     return originalStroke;
@@ -223,10 +227,13 @@ function calculate(mode = CALCULATION_MODE.DISPLACEMENT) {
         
         const requiredStroke = calculateRequiredStroke(targetDisplacement, cylinders, modifiedBore);
         
-        if (newStrokeUnitType === UNIT_TYPE.RELATIVE) {
+        // Stroke dropdown: 0 = relative (拉條), 1 = absolute (行程)
+        if (newStrokeUnitType === 0) {
+            // Relative: show change in 條
             const strokeChange = (requiredStroke - originalStroke) / 0.01;
             elements.newStroke().value = strokeChange.toFixed(2);
-        } else if (newStrokeUnitType === UNIT_TYPE.ABSOLUTE) {
+        } else if (newStrokeUnitType === 1) {
+            // Absolute: show exact mm value
             elements.newStroke().value = requiredStroke.toFixed(2);
         }
         
@@ -273,7 +280,9 @@ function updateBoreUnitLabel() {
  */
 function updateStrokeUnitLabel() {
     const unitType = parseInt(elements.selectNewStroke().value);
-    elements.newStrokeUnit().innerText = unitType === UNIT_TYPE.RELATIVE ? '條' : 'mm';
+    // Note: For stroke dropdown, value 0 = 拉條 (relative/條), value 1 = 行程 (absolute/mm)
+    // This is inverted compared to bore dropdown
+    elements.newStrokeUnit().innerText = unitType === 0 ? '條' : 'mm';
     calculate();
 }
 
