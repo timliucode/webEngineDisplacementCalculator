@@ -12,7 +12,7 @@ const CALCULATION_MODE = {
 
 const UNIT_TYPE = {
     ABSOLUTE: 0,  // Absolute value (mm)
-    RELATIVE: 1   // Relative change (條/increments)
+    RELATIVE: 1   // Relative change (increments, 條)
 };
 
 const VOLUME_CONVERSION_FACTOR = 0.0007854; // π/4 / 1000 for converting mm³ to cc
@@ -84,13 +84,13 @@ function calculatePistonSpeed(stroke, rpm) {
 
 /**
  * Calculate compression ratio
- * @param {number} displacement - Single cylinder displacement in cc
+ * @param {number} singleCylinderDisplacement - Single cylinder displacement in cc
  * @param {number} combustionChamber - Combustion chamber volume in cc
  * @returns {number} Compression ratio
  */
-function calculateCompressionRatio(displacement, combustionChamber) {
+function calculateCompressionRatio(singleCylinderDisplacement, combustionChamber) {
     if (combustionChamber <= 0) return 0;
-    return (displacement + combustionChamber) / combustionChamber;
+    return (singleCylinderDisplacement + combustionChamber) / combustionChamber;
 }
 
 /**
@@ -203,7 +203,7 @@ function calculate(mode = CALCULATION_MODE.DISPLACEMENT) {
     
     // Handle specific calculation modes
     if (mode === CALCULATION_MODE.BORE) {
-        // Recalculate stroke for bore calculation
+        // Apply stroke modification for bore calculation
         modifiedStroke = applyStrokeModification(originalStroke, newStrokeValue, newStrokeUnitType);
         
         const requiredBore = calculateRequiredBore(targetDisplacement, cylinders, modifiedStroke);
@@ -211,20 +211,20 @@ function calculate(mode = CALCULATION_MODE.DISPLACEMENT) {
         if (newBoreUnitType === UNIT_TYPE.ABSOLUTE) {
             elements.newDiameter().value = requiredBore.toFixed(2);
         } else if (newBoreUnitType === UNIT_TYPE.RELATIVE) {
-            const boreChange = requiredBore - originalBore;
+            const boreChange = (requiredBore - originalBore) / 0.01;
             elements.newDiameter().value = boreChange.toFixed(2);
         }
         
         modifiedBore = requiredBore;
         
     } else if (mode === CALCULATION_MODE.STROKE) {
-        // Recalculate bore for stroke calculation
+        // Apply bore modification for stroke calculation
         modifiedBore = applyBoreModification(originalBore, newBoreValue, newBoreUnitType);
         
         const requiredStroke = calculateRequiredStroke(targetDisplacement, cylinders, modifiedBore);
         
         if (newStrokeUnitType === UNIT_TYPE.RELATIVE) {
-            const strokeChange = requiredStroke - originalStroke;
+            const strokeChange = (requiredStroke - originalStroke) / 0.01;
             elements.newStroke().value = strokeChange.toFixed(2);
         } else if (newStrokeUnitType === UNIT_TYPE.ABSOLUTE) {
             elements.newStroke().value = requiredStroke.toFixed(2);
@@ -236,7 +236,8 @@ function calculate(mode = CALCULATION_MODE.DISPLACEMENT) {
     // Calculate modified values
     const modifiedDisplacement = calculateDisplacement(cylinders, modifiedBore, modifiedStroke);
     const modifiedPistonSpeed = calculatePistonSpeed(modifiedStroke, rpm);
-    const compressionRatio = calculateCompressionRatio(modifiedDisplacement, combustionChamber);
+    const singleCylinderDisplacement = modifiedDisplacement / cylinders;
+    const compressionRatio = calculateCompressionRatio(singleCylinderDisplacement, combustionChamber);
     
     // Calculate differences
     const ratio = modifiedDisplacement / originalDisplacement || 0;
