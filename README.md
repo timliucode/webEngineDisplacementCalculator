@@ -28,6 +28,20 @@ PS:如果是知道排量及另一單位，想計算未知的缸徑行程就留�
 
 ## 專案結構
 
-- `assets/`：存放專案所需的靜態資源，例如圖片。
-- `calculateDisplacement.js`：進行計算的 JavaScript 檔案。
-- `index.html`：專案的主要 HTML 檔案。
+```
+webEngineDisplacementCalculator/
+├── assets/          # 靜態資源（圖片、圖示等）
+│   └── images/
+├── css/             # 樣式表
+│   └── styles.css   # 主要樣式檔案
+├── js/              # JavaScript 檔案
+│   └── calculator.js # 排量計算邏輯
+└── index.html       # 主要 HTML 頁面
+```
+
+### 程式碼特色
+
+- **分離關注點**：HTML、CSS 和 JavaScript 各自獨立，易於維護
+- **清晰命名**：使用具描述性的函數和變數名稱
+- **完整文件**：包含 JSDoc 註解說明函數用途
+- **常數定義**：將魔術數字提取為有意義的常數
