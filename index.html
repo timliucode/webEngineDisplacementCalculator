@@ -14,9 +14,9 @@
     <div class="container">
         <header class="header">
             <h1>排氣量計算機</h1>
-            <a href="https://github.com/timliucode" class="github-link">Developed by timliucode</a>
+            <a href="https://github.com/timliudev" class="github-link">Developed by timliudev</a>
             <br>
-            <a href="https://github.com/timliucode/webEngineDisplacementCalculator" class="github-link">
+            <a href="https://github.com/timliudev/webEngineDisplacementCalculator" class="github-link">
                 有問題或想增加快選車款請至本庫開issues
             </a>
         </header>
@@ -55,22 +55,22 @@
                     <h2 class="section-title">改裝目標</h2>
                     <div class="input-group">
                         <div class="input-row">
-                            <select id="selectNewBore" oninput="newBoreUnit()">
+                            <select id="selectNewBore" aria-label="改裝缸徑單位" oninput="newBoreUnit()">
                                 <option value="0" selected>缸徑</option>
                                 <option value="1">搪缸</option>
                             </select>
-                            <input type="number" id="NewDiameter" min="1" step="0.1" oninput="calculate()">
+                            <input type="number" id="NewDiameter" aria-label="改裝缸徑數值" min="1" step="0.1" oninput="calculate()">
                             <span class="unit" id="newBoreUnit">mm</span>
                         </div>
                     </div>
 
                     <div class="input-group">
                         <div class="input-row">
-                            <select id="selectNewStroke" oninput="newStrokeUnit()">
+                            <select id="selectNewStroke" aria-label="改裝行程單位" oninput="newStrokeUnit()">
                                 <option value="0" selected>拉條</option>
                                 <option value="1">行程</option>
                             </select>
-                            <input type="number" id="NewStroke" min="1" step="0.1" oninput="calculate()">
+                            <input type="number" id="NewStroke" aria-label="改裝行程數值" min="1" step="0.1" oninput="calculate()">
                             <span class="unit" id="newStrokeUnit">條</span>
                         </div>
                     </div>
@@ -113,8 +113,8 @@
                             <span id="newstrokemm">0.00 mm</span>
                         </div>
                         <div class="result-item">
-                            <label>改後排量</label>
-                            <input type="number" id="newResult" min="1" step="0.1"> cc
+                            <label for="newResult">改後排量</label>
+                            <input type="number" id="newResult" min="1" step="0.1" aria-label="改後排量"> cc
                         </div>
                         <div class="result-item">
                             <label>相差倍率</label>
@@ -176,7 +176,7 @@
                     <div class="preset-buttons">
                         <button class="preset-button" onclick="setCarSpecs(1, 54, 54.5)">Racing S 125、RTS 125</button>
                         <button class="preset-button" onclick="setCarSpecs(1, 59, 54.5)">Racing S 150 / RCS Moto</button>
-                        <button class="preset-button" onclick="setCarSpecs(1, 62, 58)">KRV車系</button>
+                        <button class="preset-button" onclick="setCarSpecs(1, 62, 58)">KRV車系 / G7</button>
                         <button class="preset-button" onclick="setCarSpecs(1, 56, 54.5)">RTS135</button>
                         <button class="preset-button" onclick="setCarSpecs(1, 62, 54.5)">RTS165</button>
                     </div>
