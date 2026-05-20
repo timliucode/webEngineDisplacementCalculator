@@ -4,7 +4,7 @@
 
 去年初做C#排氣量計算機的初心是給我老闆馬力機上方便算排氣量用  
 所以做成windows用的應用程式  
-[EngineDisplacementCalculator](https://github.com/timliucode/windowsEngineDisplacementCalculator)
+[EngineDisplacementCalculator](https://github.com/timliudev/windowsEngineDisplacementCalculator)
 
 後面偶有車友會問我他想改什麼缸排氣量會有多少cc  
 但人在外只有手機每次都得開計算機手慢慢按  
